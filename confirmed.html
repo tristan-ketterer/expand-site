@@ -3,42 +3,51 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Expand — Email confirmed</title>
+  <title>Expand: Email confirmed</title>
+  <meta name="robots" content="noindex">
+  <link rel="icon" href="favicon.png" type="image/png">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <meta name="theme-color" content="#f5f0e6">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <main style="text-align:center; padding-top: 96px;">
-    <img src="logo.png" alt="Expand" width="88" height="88" style="border-radius: 20px;">
+<main class="page center">
+  <div class="wrap">
+    <img src="img/icon.png" alt="Expand" width="88" height="88" style="border-radius:20px;margin:0 auto 22px;box-shadow:0 20px 40px -24px rgba(38,69,107,.5)">
     <div id="ok">
-      <h1>Email confirmed!</h1>
-      <p class="subtitle">You're all set.</p>
-      <div class="card" style="text-align:left">
-        <p><strong>Open the Expand app on your iPhone.</strong> If you were already using it as a guest, everything is now saved to this email. Otherwise, sign in with the email and password you just created &mdash; your first belief discovery is waiting.</p>
+      <h1>Email confirmed.</h1>
+      <p class="sub">You're all set.</p>
+      <div class="card">
+        <p><strong>Open the Expand app on your iPhone.</strong> If you were already using it as a guest, everything is now saved to this email. Otherwise, sign in with the email and password you just created. Your first belief discovery is waiting.</p>
       </div>
     </div>
     <div id="bad" hidden>
-      <h1>This link didn't work</h1>
-      <p class="subtitle" id="why">It may have expired or been replaced by a newer email.</p>
-      <div class="card" style="text-align:left">
-        <p><strong>Open the Expand app, try signing in, and tap "Resend email."</strong> Then use the link in the newest message — each new email replaces the last one.</p>
+      <h1>This link didn't work.</h1>
+      <p class="sub" id="why">It may have expired or been replaced by a newer email.</p>
+      <div class="card">
+        <p><strong>Open the Expand app, try signing in, and tap "Resend email."</strong> Then use the link in the newest message. Each new email replaces the last one.</p>
       </div>
     </div>
-    <script>
-      // Supabase sends failed verifications here too, with the error in the
-      // URL fragment (or query). Don't tell those people they're confirmed.
-      (function () {
-        var raw = (location.hash || '').replace(/^#/, '') + '&' + (location.search || '').replace(/^\?/, '');
-        var q = new URLSearchParams(raw);
-        var err = q.get('error') || q.get('error_code');
-        if (!err) return;
-        document.getElementById('ok').hidden = true;
-        document.getElementById('bad').hidden = false;
-        var d = q.get('error_description');
-        if (d) document.getElementById('why').textContent = d.replace(/\+/g, ' ') + '.';
-        document.title = 'Expand \u2014 Link didn\u2019t work';
-      })();
-    </script>
-    <p class="footer">© 2026 Tristan Ketterer · <a href="privacy.html">Privacy</a></p>
-  </main>
+    <p class="muted small" style="margin-top:32px">&copy; 2026 Tristan Ketterer &middot; <a href="privacy.html">Privacy</a> &middot; <a href="support.html">Support</a></p>
+  </div>
+</main>
+<script>
+  // Supabase sends failed verifications here too, with the error in the
+  // URL fragment (or query). Don't tell those people they're confirmed.
+  (function () {
+    var raw = (location.hash || '').replace(/^#/, '') + '&' + (location.search || '').replace(/^\?/, '');
+    var q = new URLSearchParams(raw);
+    var err = q.get('error') || q.get('error_code');
+    if (!err) return;
+    document.getElementById('ok').hidden = true;
+    document.getElementById('bad').hidden = false;
+    var d = q.get('error_description');
+    if (d) document.getElementById('why').textContent = d.replace(/\+/g, ' ') + '.';
+    document.title = 'Expand: Link didn’t work';
+  })();
+</script>
 </body>
 </html>
