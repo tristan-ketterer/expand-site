@@ -33,7 +33,7 @@
     const show = (name) => shots.forEach(img => img.classList.toggle('on', img.dataset.shot === name));
     const so = new IntersectionObserver((entries) => {
       entries.forEach(e => { if (e.isIntersecting) show(e.target.dataset.shot); });
-    }, { rootMargin: '-45% 0px -45% 0px', threshold: 0 });
+    }, { rootMargin: '-18% 0px -62% 0px', threshold: 0 });
     steps.forEach(s => so.observe(s));
   }
 
