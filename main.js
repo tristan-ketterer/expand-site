@@ -37,6 +37,18 @@
     steps.forEach(s => so.observe(s));
   }
 
+  // ---- Hero: rotating belief line ----
+  const rot = document.getElementById('rot');
+  if (rot && !reduce) {
+    const items = rot.querySelectorAll('.rot-item');
+    let i = 0;
+    setInterval(() => {
+      items[i].classList.remove('on');
+      i = (i + 1) % items.length;
+      items[i].classList.add('on');
+    }, 2600);
+  }
+
   // ---- Background video with a seamless loop (two players cross-fading) ----
   function mountVideo(container) {
     if (!container || reduce || saveData) return;
@@ -44,20 +56,32 @@
     const src = small && container.dataset.videoSmall ? container.dataset.videoSmall : container.dataset.video;
     if (!src) return;
 
-    const make = () => {
+    const make = (first) => {
       const v = document.createElement('video');
       v.muted = true; v.playsInline = true; v.loop = false; v.preload = 'auto';
-      v.setAttribute('muted', ''); v.setAttribute('playsinline', ''); v.setAttribute('aria-hidden', 'true');
+      // Attributes as well as properties: iOS Safari checks the attributes
+      // for its autoplay policy, and declarative autoplay on the first
+      // player is more reliable there than a scripted play().
+      v.setAttribute('muted', ''); v.setAttribute('playsinline', ''); v.setAttribute('webkit-playsinline', '');
+      v.setAttribute('aria-hidden', 'true');
+      if (first) v.setAttribute('autoplay', '');
       v.src = src;
       container.appendChild(v);
+      v.load();
       return v;
     };
-    const a = make(), b = make();
+    const a = make(true), b = make(false);
     let cur = a, nxt = b, armed = false;
 
-    const start = (v) => { v.currentTime = 0; const p = v.play(); if (p && p.catch) p.catch(() => {}); };
+    const start = (v) => { try { v.currentTime = 0; } catch (_e) {} const p = v.play(); if (p && p.catch) p.catch(() => {}); };
 
-    a.addEventListener('canplay', () => { if (!a.classList.contains('on')) { a.classList.add('on'); start(a); } }, { once: true });
+    const reveal = () => { if (!a.classList.contains('on')) { a.classList.add('on'); start(a); } };
+    a.addEventListener('canplay', reveal, { once: true });
+    a.addEventListener('playing', reveal, { once: true });
+    // Low Power Mode and some in-app browsers refuse autoplay until the
+    // person touches the page; retry on the first gesture.
+    const nudge = () => { if (cur.paused) { const p = cur.play(); if (p && p.catch) p.catch(() => {}); } };
+    ['touchstart', 'scroll', 'click'].forEach(ev => window.addEventListener(ev, nudge, { once: true, passive: true }));
 
     const tick = () => {
       if (!isFinite(cur.duration)) { requestAnimationFrame(tick); return; }
