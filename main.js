@@ -37,18 +37,6 @@
     steps.forEach(s => so.observe(s));
   }
 
-  // ---- Hero: rotating belief line ----
-  const rot = document.getElementById('rot');
-  if (rot && !reduce) {
-    const items = rot.querySelectorAll('.rot-item');
-    let i = 0;
-    setInterval(() => {
-      items[i].classList.remove('on');
-      i = (i + 1) % items.length;
-      items[i].classList.add('on');
-    }, 2600);
-  }
-
   // ---- Background video with a seamless loop (two players cross-fading) ----
   function mountVideo(container) {
     if (!container || reduce || saveData) return;
