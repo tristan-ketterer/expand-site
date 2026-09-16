@@ -312,22 +312,9 @@ button { font: inherit; }
 .steps { display: grid; gap: clamp(40px, 5vw, 64px); padding-top: 8px; }
 .step {
   display: grid; grid-template-columns: 56px 1fr; gap: 18px; align-items: start;
-  position: relative;
-  padding: 18px 22px 20px 24px;
-  margin-left: -24px;
-  border-radius: 20px;
   cursor: pointer;
   outline: none;
-  transition: background .3s var(--ease);
 }
-.step::before {
-  content: ""; position: absolute; left: 0; top: 22px; bottom: 22px; width: 3px;
-  border-radius: 3px; background: var(--ink);
-  opacity: 0; transform: scaleY(.4);
-  transition: opacity .3s var(--ease), transform .35s var(--ease);
-}
-.step.active { background: rgba(255, 255, 255, .55); }
-.step.active::before { opacity: 1; transform: none; }
 .step .n {
   font-family: var(--serif);
   font-size: 40px;
@@ -337,6 +324,21 @@ button { font: inherit; }
   transition: color .3s;
 }
 .step.active .n { color: var(--ink); }
+/* Glowing dot beside the phase title, shown for the phase on the phone. */
+.step h3 { display: inline-flex; align-items: center; gap: 12px; }
+.step h3::after {
+  content: ""; width: 10px; height: 10px; border-radius: 50%;
+  background: #4f8df5;
+  box-shadow: 0 0 0 0 rgba(79, 141, 245, .55);
+  opacity: 0; transform: scale(.6);
+  transition: opacity .3s var(--ease), transform .3s var(--ease);
+}
+.step.active h3::after { opacity: 1; transform: none; animation: pulse 1.8s ease-out infinite; }
+@keyframes pulse {
+  0%   { box-shadow: 0 0 0 0 rgba(79, 141, 245, .55); }
+  70%  { box-shadow: 0 0 0 12px rgba(79, 141, 245, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(79, 141, 245, 0); }
+}
 .step h3 {
   font-family: var(--serif);
   font-weight: 500;
@@ -350,9 +352,8 @@ button { font: inherit; }
 @media (max-width: 960px) {
   .how-grid { grid-template-columns: 1fr; }
   .sticky { display: none; }
-  .step { padding: 0; margin-left: 0; cursor: default; background: none; }
-  .step.active { background: none; }
-  .step::before { display: none; }
+  .step { cursor: default; }
+  .step h3::after { display: none; }
   .step.active .n { color: var(--soft); }
   .step .mobile-shot {
     display: block;
@@ -539,6 +540,7 @@ button { font: inherit; }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .reveal, .hero .rise { opacity: 1; transform: none; animation: none; transition: none; }
+  .step.active h3::after { animation: none; }
   .old { background-size: 100% 1.5px; transition: none; }
   .new { opacity: 1; transform: none; transition: none; }
   .scroll-cue::after { animation: none; }
