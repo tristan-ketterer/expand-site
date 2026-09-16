@@ -193,23 +193,18 @@ button { font: inherit; }
   padding-top: 120px;
   padding-bottom: 96px;
 }
-.hero-copy { max-width: 900px; }
+.hero-copy { max-width: 780px; }
 .hero .kicker { color: rgba(255, 255, 255, .78); margin-bottom: 26px; }
 .hero h1 {
   font-family: var(--serif);
   font-weight: 500;
-  font-size: clamp(40px, 5.6vw, 76px);
-  line-height: 1.04;
+  font-size: clamp(44px, 7.4vw, 96px);
+  line-height: 1.0;
   letter-spacing: -0.02em;
+  text-wrap: balance;
   text-shadow: 0 2px 30px rgba(0, 0, 0, .18);
 }
-.hero h1 .l { display: block; white-space: nowrap; }
-.hero h1 em { font-style: italic; font-weight: 400; display: block; margin-top: .3em; white-space: nowrap; }
-@media (max-width: 640px) {
-  .hero h1 .l { display: inline; white-space: normal; }
-  .hero h1 .l::after { content: " "; }
-  .hero h1 em { white-space: normal; text-wrap: balance; }
-}
+.hero h1 em { font-style: italic; font-weight: 400; }
 .hero p.sub {
   margin-top: 26px;
   max-width: 560px;
