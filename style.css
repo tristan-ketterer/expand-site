@@ -124,14 +124,14 @@ button { font: inherit; }
 .brand {
   display: inline-flex;
   align-items: center;
-  gap: 4px;
+  gap: 5px;
   text-decoration: none;
   font-family: var(--serif);
   font-weight: 600;
   font-size: 22px;
   letter-spacing: -0.01em;
 }
-.brand .inf { width: 25px; height: 12px; flex: none; transform: translateY(-2px); }
+.brand .inf { width: 26px; height: 15px; flex: none; transform: translateY(-1px); }
 .navlinks { display: flex; align-items: center; gap: 28px; font-size: 14.5px; font-weight: 500; }
 .navlinks a { text-decoration: none; opacity: .9; transition: opacity .2s; }
 .navlinks a:hover { opacity: 1; }
