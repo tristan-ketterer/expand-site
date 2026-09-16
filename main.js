@@ -25,23 +25,21 @@
     reveals.forEach(el => io.observe(el));
   }
 
-  // ---- Sticky phone: swap the screenshot as steps scroll by ----
+  // ---- Sticky phone: hover (or tap) a phase to show its screen ----
   const phone = document.getElementById('phone');
   const steps = document.querySelectorAll('.step[data-shot]');
-  if (phone && steps.length && 'IntersectionObserver' in window) {
+  if (phone && steps.length) {
     const shots = phone.querySelectorAll('img[data-shot]');
-    const show = (name) => shots.forEach(img => img.classList.toggle('on', img.dataset.shot === name));
-    // A step "owns" the phone as soon as its top rises past the middle of
-    // the screen. Track every step in that zone and show the lowest one, so
-    // the swap is early on the way down and immediate on the way back up.
-    const inZone = new Set();
-    const so = new IntersectionObserver((entries) => {
-      entries.forEach(e => { e.isIntersecting ? inZone.add(e.target) : inZone.delete(e.target); });
-      let pick = null;
-      steps.forEach(st => { if (inZone.has(st)) pick = st; });
-      if (pick) show(pick.dataset.shot);
-    }, { rootMargin: '0px 0px -50% 0px', threshold: 0 });
-    steps.forEach(s => so.observe(s));
+    const activate = (step) => {
+      steps.forEach(st => st.classList.toggle('active', st === step));
+      shots.forEach(img => img.classList.toggle('on', img.dataset.shot === step.dataset.shot));
+    };
+    steps.forEach(st => {
+      st.addEventListener('mouseenter', () => activate(st));
+      st.addEventListener('focusin', () => activate(st));
+      st.addEventListener('click', () => activate(st));
+    });
+    activate(steps[0]);
   }
 
   // ---- Background video with a seamless loop (two players cross-fading) ----
