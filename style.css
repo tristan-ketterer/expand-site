@@ -204,7 +204,7 @@ button { font: inherit; }
   text-wrap: balance;
   text-shadow: 0 2px 30px rgba(0, 0, 0, .18);
 }
-.hero h1 em { font-style: italic; font-weight: 400; }
+.hero h1 em { font-style: italic; font-weight: 400; display: block; margin-top: .3em; }
 .hero p.sub {
   margin-top: 26px;
   max-width: 560px;
