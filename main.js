@@ -31,9 +31,16 @@
   if (phone && steps.length && 'IntersectionObserver' in window) {
     const shots = phone.querySelectorAll('img[data-shot]');
     const show = (name) => shots.forEach(img => img.classList.toggle('on', img.dataset.shot === name));
+    // A step "owns" the phone as soon as its top rises past the middle of
+    // the screen. Track every step in that zone and show the lowest one, so
+    // the swap is early on the way down and immediate on the way back up.
+    const inZone = new Set();
     const so = new IntersectionObserver((entries) => {
-      entries.forEach(e => { if (e.isIntersecting) show(e.target.dataset.shot); });
-    }, { rootMargin: '-18% 0px -62% 0px', threshold: 0 });
+      entries.forEach(e => { e.isIntersecting ? inZone.add(e.target) : inZone.delete(e.target); });
+      let pick = null;
+      steps.forEach(st => { if (inZone.has(st)) pick = st; });
+      if (pick) show(pick.dataset.shot);
+    }, { rootMargin: '0px 0px -50% 0px', threshold: 0 });
     steps.forEach(s => so.observe(s));
   }
 
