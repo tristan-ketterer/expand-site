@@ -131,7 +131,7 @@ button { font: inherit; }
   font-size: 22px;
   letter-spacing: -0.01em;
 }
-.brand .inf { width: 32px; height: 16px; flex: none; }
+.brand .inf { width: 25px; height: 12px; flex: none; }
 .navlinks { display: flex; align-items: center; gap: 28px; font-size: 14.5px; font-weight: 500; }
 .navlinks a { text-decoration: none; opacity: .9; transition: opacity .2s; }
 .navlinks a:hover { opacity: 1; }
